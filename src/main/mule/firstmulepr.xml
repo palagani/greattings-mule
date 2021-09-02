@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b072c903-d395-4278-b7ca-42067ced3c25" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="firstmuleprFlow" doc:id="0f1c2eab-6262-4de8-b32d-e6a66e0410e3" >
+		<http:listener doc:name="Listener" doc:id="eb105479-76a2-4df7-b340-cdfdade6ab36" config-ref="HTTP_Listener_config" path="/rk"/>
+		<logger level="INFO" doc:name="Logger" doc:id="46eb88b3-fe72-4f14-bf49-0d570f448d47" message="======before payload====="/>
+		<ee:transform doc:name="Transform Message" doc:id="30a6341d-5f42-404d-a063-7d2a94b716f7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "hii this is first mule project"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a395dfd6-8adc-4833-874c-b01778c38c29" message="#[payload]"/>
+	</flow>
+</mule>
